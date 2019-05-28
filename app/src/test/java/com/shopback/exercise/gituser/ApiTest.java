@@ -52,7 +52,7 @@ public class ApiTest {
 
     @Test
     public void testGetUser() {
-        final String userLoginName = "ricky7777";
+        final String userLoginName = "jnewland";
         Call<GitUser> gitUserCall = apiService.getUser(userLoginName);
         gitUserCall.enqueue(new Callback<GitUser>() {
             @Override
