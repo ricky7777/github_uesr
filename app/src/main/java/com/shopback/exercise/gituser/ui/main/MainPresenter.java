@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import utils.RetrofitUtils;
 
 /**
  * Created by Ricky on 2019-05-28.<br/>
@@ -19,24 +20,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainPresenter {
     private MainView mainView;
-    private ApiService apiService;
     private final static int DEFAULT_PER_PAGE = 20;
 
     public MainPresenter(MainView mainView) {
         this.mainView = mainView;
-        initRetrofit();
-    }
-
-    private void initRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(GitUserConfig.URL_API_BASE_GITHUB)
-                .build();
-        apiService = retrofit.create(ApiService.class);
     }
 
     public void fetchUsers(int since) {
-        Call<List<GitUser>> call = apiService.getUsers(since, DEFAULT_PER_PAGE);
+        Call<List<GitUser>> call = RetrofitUtils.getInstance().getApiService().getUsers(since,
+                DEFAULT_PER_PAGE);
         call.enqueue(new BaseCallBack<List<GitUser>>() {
 
             @Override
@@ -52,7 +44,8 @@ public class MainPresenter {
     }
 
     public void fetchUser(String userLoginName) {
-        Call<GitUser> gitUserCall = apiService.getUser(userLoginName);
+        Call<GitUser> gitUserCall =
+                RetrofitUtils.getInstance().getApiService().getUser(userLoginName);
         gitUserCall.enqueue(new BaseCallBack<GitUser>() {
             @Override
             public void onResponseSuccess(Response<GitUser> response) {

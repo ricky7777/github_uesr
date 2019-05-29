@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,12 +21,13 @@ import java.util.List;
 /**
  * Created by Ricky on 2019-05-28.
  */
-public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapter.ViewHolder> {
+public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListAdapter.ViewHolder> {
 
     private Context context;
     private List<GitUser> gitUserList;
 
     public GitUsersListAdapter(Context context, List<GitUser> gitUserList) {
+        super(DIFF_CALLBACK);
         this.context = context;
         this.gitUserList = gitUserList;
     }
@@ -37,15 +40,6 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapte
         return holder;
     }
 
-    private ViewHolder createGitUsersViewHolder() {
-        View view = LayoutInflater.from(context).inflate(R.layout.gituser_item, null);
-        ViewHolder holder = new ViewHolder(view);
-        holder.userIconView = view.findViewById(R.id.user_icon);
-        holder.userNameView = view.findViewById(R.id.user_name);
-        holder.siteAdminView = view.findViewById(R.id.site_admin);
-        return holder;
-    }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GitUser gitUser = gitUserList.get(position);
@@ -55,6 +49,15 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapte
 
         boolean isShowAdminView = gitUser.getSiteAdmin();
         holder.siteAdminView.setVisibility(isShowAdminView ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private ViewHolder createGitUsersViewHolder() {
+        View view = LayoutInflater.from(context).inflate(R.layout.gituser_item, null);
+        ViewHolder holder = new ViewHolder(view);
+        holder.userIconView = view.findViewById(R.id.user_icon);
+        holder.userNameView = view.findViewById(R.id.user_name);
+        holder.siteAdminView = view.findViewById(R.id.site_admin);
+        return holder;
     }
 
     @Override
@@ -72,4 +75,20 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapte
             super(itemView);
         }
     }
+
+    /**
+     * reference on https://www.simplifiedcoding.net/android-paging-library-tutorial/
+     */
+    private static DiffUtil.ItemCallback<GitUser> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<GitUser>() {
+                @Override
+                public boolean areItemsTheSame(GitUser oldItem, GitUser newItem) {
+                    return oldItem.getId() == newItem.getId();
+                }
+
+                @Override
+                public boolean areContentsTheSame(GitUser oldItem, GitUser newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
 }

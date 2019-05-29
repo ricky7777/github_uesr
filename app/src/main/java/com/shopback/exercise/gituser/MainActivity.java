@@ -2,7 +2,10 @@ package com.shopback.exercise.gituser;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         gitUserRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 RecyclerView.VERTICAL, false));
         gitUserRecyclerView.setAdapter(gitUsersListAdapter);
+
     }
 
     private void initPresenter() {
@@ -60,6 +64,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public void addGitUsers(List<GitUser> usersList) {
         gitUsersList.addAll(usersList);
         gitUsersListAdapter.notifyDataSetChanged();
+
+//        PagedList.Config pagedListConfig =
+//                (new PagedList.Config.Builder())
+//                        .setEnablePlaceholders(false)
+//                        .setPageSize(20).build();
+//        LivePagedListBuilder itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory, pagedListConfig))
+//                .build();
     }
 
     @Override
