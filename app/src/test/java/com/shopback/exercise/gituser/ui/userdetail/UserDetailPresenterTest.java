@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class UserDetailPresenterTest {
 
     @Test
-    public void TestfetchUser() {
+    public void TestFetchUser() {
         ApiService apiService = Mockito.mock(ApiService.class);
         Call<GitUser> mockedCall = Mockito.mock(Call.class);
         Mockito.when(apiService.getUser("ricky7777")).thenReturn(mockedCall);
