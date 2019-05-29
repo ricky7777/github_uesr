@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * Created by Ricky on 2019-05-28.
  */
-public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListAdapter.ViewHolder> {
+public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapter.ViewHolder> {
 
     private Context context;
     private List<GitUser> gitUserList;
@@ -29,7 +28,6 @@ public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListA
 
     public GitUsersListAdapter(Context context, List<GitUser> gitUserList,
                                ItemClickListener itemClickListener) {
-        super(DIFF_CALLBACK);
         this.context = context;
         this.gitUserList = gitUserList;
         this.itemClickListener = itemClickListener;
@@ -83,22 +81,6 @@ public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListA
             super(itemView);
         }
     }
-
-    /**
-     * reference on https://www.simplifiedcoding.net/android-paging-library-tutorial/
-     */
-    private static DiffUtil.ItemCallback<GitUser> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<GitUser>() {
-                @Override
-                public boolean areItemsTheSame(GitUser oldItem, GitUser newItem) {
-                    return oldItem.getId() == newItem.getId();
-                }
-
-                @Override
-                public boolean areContentsTheSame(GitUser oldItem, GitUser newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
 
     public interface ItemClickListener {
         void onItemClick(String loginName);

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -103,14 +104,19 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailV
             locationView.setVisibility(View.VISIBLE);
         }
 
-        if(gitUser.getBlog() == null){
+        if (gitUser.getBlog() == null) {
             blogView.setVisibility(View.GONE);
-        }else {
+        } else {
             blogURLView.setText(gitUser.getBlog());
             blogView.setVisibility(View.VISIBLE);
         }
 
         ProgressDialogUtil.dismiss();
+    }
+
+    @Override
+    public void fetchGitUserFail() {
+        Toast.makeText(this, R.string.error_message_fetch_data_fail, Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.button_close)

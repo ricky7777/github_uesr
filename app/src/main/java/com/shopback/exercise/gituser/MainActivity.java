@@ -2,6 +2,7 @@ package com.shopback.exercise.gituser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,14 +75,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
         gitUsersList.addAll(usersList);
         gitUsersListAdapter.notifyDataSetChanged();
         ProgressDialogUtil.dismiss();
-//        PagedList.Config pagedListConfig =
-//                (new PagedList.Config.Builder())
-//                        .setEnablePlaceholders(false)
-//                        .setPageSize(20).build();
-//        LivePagedListBuilder itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory,
-//        pagedListConfig))
-//                .build();
     }
 
+    @Override
+    public void fetchGitUsersFail() {
+        Toast.makeText(this, R.string.error_message_fetch_data_fail, Toast.LENGTH_LONG).show();
+    }
 
+    protected void onDestroy() {
+        super.onDestroy();
+        ProgressDialogUtil.onDestory();
+    }
 }

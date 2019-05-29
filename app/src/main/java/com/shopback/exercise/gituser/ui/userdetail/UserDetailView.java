@@ -7,4 +7,5 @@ import com.shopback.exercise.gituser.model.GitUser;
  */
 public interface UserDetailView {
     void showGitUserDetail(GitUser gitUser);
+    void fetchGitUserFail();
 }

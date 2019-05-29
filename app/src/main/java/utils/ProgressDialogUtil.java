@@ -13,26 +13,30 @@ import com.shopback.exercise.gituser.R;
  * progress dialog util, will adapter progress dialog and show
  */
 public class ProgressDialogUtil {
-    private static AlertDialog mAlertDialog;
+    private static AlertDialog alertDialog;
 
     public static void showProgressDialog(Context context) {
-        if (mAlertDialog == null) {
-            mAlertDialog = new AlertDialog.Builder(context, R.style.CustomProgressDialog).create();
+        if (alertDialog == null) {
+            alertDialog = new AlertDialog.Builder(context, R.style.CustomProgressDialog).create();
         }
 
         View loadView = LayoutInflater.from(context).inflate(R.layout.progress_dialog_view
                 , null);
-        mAlertDialog.setView(loadView, 0, 0, 0, 0);
-        mAlertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setView(loadView, 0, 0, 0, 0);
+        alertDialog.setCanceledOnTouchOutside(false);
 
         if (!((Activity) context).isFinishing()) {
-            mAlertDialog.show();
+            alertDialog.show();
         }
     }
 
     public static void dismiss() {
-        if (mAlertDialog != null && mAlertDialog.isShowing()) {
-            mAlertDialog.dismiss();
+        if (alertDialog != null && alertDialog.isShowing()) {
+            alertDialog.dismiss();
         }
+    }
+
+    public static void onDestory() {
+        alertDialog = null;
     }
 }

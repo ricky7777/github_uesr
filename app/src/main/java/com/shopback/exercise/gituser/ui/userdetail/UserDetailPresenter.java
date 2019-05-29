@@ -30,7 +30,7 @@ public class UserDetailPresenter {
 
             @Override
             public void onResponseFail(Throwable throwable) {
-
+                userDetailView.fetchGitUserFail();
             }
         });
     }

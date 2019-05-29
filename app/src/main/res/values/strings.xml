@@ -3,4 +3,5 @@
     <string name="main_page_title">GitHub Users</string>
     <string name="main_page_subtitle">Users</string>
     <string name="text_site_admin">STAFF</string>
+    <string name="error_message_fetch_data_fail">Oops! something wrong, maybe you car try later.</string>
 </resources>

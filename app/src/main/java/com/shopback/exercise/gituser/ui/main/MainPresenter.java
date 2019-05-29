@@ -34,7 +34,7 @@ public class MainPresenter {
 
             @Override
             public void onResponseFail(Throwable throwable) {
-
+                mainView.fetchGitUsersFail();
             }
         });
     }

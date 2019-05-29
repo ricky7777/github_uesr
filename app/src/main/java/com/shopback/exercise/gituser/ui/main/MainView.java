@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface MainView {
     void addGitUsers(List<GitUser> gitUsersList);
+    void fetchGitUsersFail();
 }
