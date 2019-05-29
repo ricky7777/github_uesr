@@ -25,11 +25,14 @@ public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListA
 
     private Context context;
     private List<GitUser> gitUserList;
+    private ItemClickListener itemClickListener;
 
-    public GitUsersListAdapter(Context context, List<GitUser> gitUserList) {
+    public GitUsersListAdapter(Context context, List<GitUser> gitUserList,
+                               ItemClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.context = context;
         this.gitUserList = gitUserList;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -48,14 +51,19 @@ public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListA
         holder.userNameView.setText(gitUser.getLogin());
 
         boolean isShowAdminView = gitUser.getSiteAdmin();
-        holder.siteAdminView.setVisibility(isShowAdminView ? View.VISIBLE : View.INVISIBLE);
+        holder.siteAdminView.setVisibility(isShowAdminView ? View.VISIBLE : View.GONE);
+        holder.itemView.setOnClickListener(v -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(gitUser.getLogin());
+            }
+        });
     }
 
     private ViewHolder createGitUsersViewHolder() {
-        View view = LayoutInflater.from(context).inflate(R.layout.gituser_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_gituser, null);
         ViewHolder holder = new ViewHolder(view);
         holder.userIconView = view.findViewById(R.id.user_icon);
-        holder.userNameView = view.findViewById(R.id.user_name);
+        holder.userNameView = view.findViewById(R.id.user_login_name);
         holder.siteAdminView = view.findViewById(R.id.site_admin);
         return holder;
     }
@@ -91,4 +99,8 @@ public class GitUsersListAdapter extends PagedListAdapter<GitUser, GitUsersListA
                     return oldItem.equals(newItem);
                 }
             };
+
+    public interface ItemClickListener {
+        void onItemClick(String loginName);
+    }
 }
