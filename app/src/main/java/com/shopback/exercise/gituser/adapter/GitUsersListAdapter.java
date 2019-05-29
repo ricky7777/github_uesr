@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -55,6 +54,8 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapte
                 itemClickListener.onItemClick(gitUser.getLogin());
             }
         });
+
+        holder.indexNumberView.setText(String.valueOf(position + 1));
     }
 
     private ViewHolder createGitUsersViewHolder() {
@@ -63,6 +64,7 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapte
         holder.userIconView = view.findViewById(R.id.user_icon);
         holder.userNameView = view.findViewById(R.id.user_login_name);
         holder.siteAdminView = view.findViewById(R.id.site_admin);
+        holder.indexNumberView = view.findViewById(R.id.index_number);
         return holder;
     }
 
@@ -76,6 +78,7 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUsersListAdapte
         public ImageView userIconView;
         public TextView userNameView;
         public TextView siteAdminView;
+        public TextView indexNumberView;
 
         public ViewHolder(View itemView) {
             super(itemView);

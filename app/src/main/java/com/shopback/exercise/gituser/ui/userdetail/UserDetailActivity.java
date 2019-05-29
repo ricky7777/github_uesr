@@ -1,6 +1,7 @@
 package com.shopback.exercise.gituser.ui.userdetail;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,9 @@ import utils.ProgressDialogUtil;
  * call api to get user detail and display it
  */
 public class UserDetailActivity extends AppCompatActivity implements UserDetailView {
+    @BindView(R.id.index_number)
+    TextView indexNumberView;
+
     @BindView(R.id.user_icon)
     ImageView userIconView;
 
@@ -56,24 +60,33 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!getIntent().hasExtra(MainActivity.INTENT_KEY_LOGINNAME)) {
-            finish();
-            return;
-        }
 
-        String loginName = getIntent().getStringExtra(MainActivity.INTENT_KEY_LOGINNAME);
-        if (loginName == null || loginName.isEmpty()) {
-            finish();
-            return;
-        }
-
-        UserDetailPresenter userDetailPresenter = new UserDetailPresenter(this);
-        userDetailPresenter.fetchUser(loginName);
 
         setContentView(R.layout.activity_userdetail);
         ButterKnife.bind(this);
 
         ProgressDialogUtil.showProgressDialog(this);
+
+        String loginName = getLoginName();
+        if (TextUtils.isEmpty(loginName)) {
+            finish();
+        } else {
+            fetchGitUser(loginName);
+        }
+    }
+
+    private String getLoginName() {
+        String loginName = null;
+        if (getIntent().hasExtra(MainActivity.INTENT_KEY_LOGINNAME)) {
+            loginName = getIntent().getStringExtra(MainActivity.INTENT_KEY_LOGINNAME);
+        }
+        return loginName;
+    }
+
+    private void fetchGitUser(String loginName) {
+        UserDetailPresenter userDetailPresenter = new UserDetailPresenter(this);
+        userDetailPresenter.fetchUser(loginName);
+        indexNumberView.setVisibility(View.GONE);
     }
 
 

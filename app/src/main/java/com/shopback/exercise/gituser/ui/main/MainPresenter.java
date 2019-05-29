@@ -16,7 +16,7 @@ import utils.RetrofitUtils;
  */
 public class MainPresenter {
     private MainView mainView;
-    private final static int DEFAULT_PER_PAGE = 100;
+    private final static int DEFAULT_PER_PAGE = 20;
 
     public MainPresenter(MainView mainView) {
         this.mainView = mainView;

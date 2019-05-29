@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shopback.exercise.gituser.adapter.GitUsersListAdapter;
+import com.shopback.exercise.gituser.listener.EndlessRecyclerOnScrollListener;
 import com.shopback.exercise.gituser.model.GitUser;
 import com.shopback.exercise.gituser.ui.main.MainPresenter;
 import com.shopback.exercise.gituser.ui.main.MainView;
@@ -60,9 +61,22 @@ public class MainActivity extends AppCompatActivity implements MainView {
                     startActivity(intent);
                 });
 
-        gitUserRecyclerView.setLayoutManager(new LinearLayoutManager(this,
-                RecyclerView.VERTICAL, false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
+                RecyclerView.VERTICAL, false);
+        gitUserRecyclerView.setLayoutManager(linearLayoutManager);
         gitUserRecyclerView.setAdapter(gitUsersListAdapter);
+
+        gitUserRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+
+            @Override
+            public void onLoadMore() {
+                if (gitUsersList != null && !gitUsersList.isEmpty()) {
+                    ProgressDialogUtil.showProgressDialog(MainActivity.this);
+                    int id = gitUsersList.get(gitUsersList.size() - 1).getId();
+                    mainPresenter.fetchUsers(id);
+                }
+            }
+        });
 
     }
 
